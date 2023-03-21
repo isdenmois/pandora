@@ -1,8 +1,7 @@
 import { z } from 'zod'
-import { env } from 'shared/lib'
 import { api } from './api'
 
-const IMAGE_PREFIX = `${env.corsURL}https://artworks.thetvdb.com`
+const IMAGE_PREFIX = 'https://artworks.thetvdb.com'
 
 const searchItemSchema = z.object({
   id: z.coerce.number(),
