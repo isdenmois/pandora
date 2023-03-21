@@ -15,6 +15,16 @@
         <q-item-label header> Essential Links </q-item-label>
 
         <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
+
+        <q-item clickable v-ripple @click="logOut">
+          <q-item-section avatar>
+            <q-icon name="logout" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Logout</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
@@ -27,6 +37,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue'
+import { logOut } from 'entities/viewer'
 
 const essentialLinks: EssentialLinkProps[] = [
   {
