@@ -29,5 +29,5 @@ export const seriesSchema = toTypedRxJsonSchema({
       type: 'integer',
     },
   },
-  required: ['id', 'tvdb_id', 'title', 'status'],
+  required: ['id', 'title', 'status'],
 } as const)
