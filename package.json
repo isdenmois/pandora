@@ -41,7 +41,7 @@
     "typescript": "4.9.5"
   },
   "engines": {
-    "node": "18",
+    "node": "16",
     "npm": ">= 6.13.4"
   },
   "simple-git-hooks": {
