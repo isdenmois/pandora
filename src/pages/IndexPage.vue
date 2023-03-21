@@ -4,6 +4,7 @@ import { tvdbAPI } from 'shared/api'
 import { SeriesSearchItem } from 'shared/api/tvdb/series-search'
 import { allSeries$, createSeries, removeSeries } from 'entities/series'
 import { useObservable } from 'shared/hooks'
+import { env } from 'shared/lib'
 
 const query = ref('')
 const series = ref<SeriesSearchItem[]>([])
@@ -40,7 +41,7 @@ const addSeries = async (series: SeriesSearchItem) => {
 <template>
   <q-page class="column items-center justify-evenly">
     <q-card v-for="series of allSeries" v-bind:key="series.id" class="card">
-      <q-img v-if="series.poster" :src="series.poster">
+      <q-img v-if="series.poster" :src="env.corsURL + series.poster">
         <div class="absolute-bottom text-subtitle2 text-center">{{ series.title }}</div>
       </q-img>
 
@@ -68,7 +69,7 @@ const addSeries = async (series: SeriesSearchItem) => {
 
     <div class="q-pa-md row items-start q-gutter-md">
       <q-card v-for="item of series" v-bind:key="item.id" class="card">
-        <q-img v-if="item.image" :src="item.image">
+        <q-img v-if="item.image" :src="env.corsURL + item.image">
           <div class="absolute-bottom text-subtitle2 text-center">{{ item.seriesName }}</div>
         </q-img>
 
