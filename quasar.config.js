@@ -10,6 +10,18 @@
 
 const { configure } = require('quasar/wrappers')
 const path = require('path')
+const fs = require('fs')
+
+const dirs = fs
+  .readdirSync(path.join(__dirname, './src'), { withFileTypes: true })
+  .filter(dirent => dirent.isDirectory())
+  .map(dirent => dirent.name)
+
+const alias = {}
+
+for (const dir of dirs) {
+  alias[dir] = path.join(__dirname, `./src/${dir}`)
+}
 
 module.exports = configure(function (/* ctx */) {
   return {
@@ -90,10 +102,7 @@ module.exports = configure(function (/* ctx */) {
         ],
       ],
 
-      alias: {
-        i18n: path.join(__dirname, './src/i18n'),
-        shared: path.join(__dirname, './src/shared'),
-      },
+      alias,
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
