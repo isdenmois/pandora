@@ -11,7 +11,7 @@ const replicateState = replicateFirestore({
     collection: firebase.firestoreSeriesCollection,
   },
   autoStart: false,
-  live: false,
+  live: true,
   retryTime: 30000,
   pull: {},
   push: {},
