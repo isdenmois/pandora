@@ -46,5 +46,13 @@
   },
   "simple-git-hooks": {
     "pre-commit": "npx pretty-quick --staged"
+  },
+  "overrides": {
+    "vite": "4.2.1"
+  },
+  "pnpm": {
+    "overrides": {
+      "vite": "4.2.1"
+    }
   }
 }
