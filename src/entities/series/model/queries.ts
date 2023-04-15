@@ -1,3 +1,4 @@
-import { seriesCollection } from './db'
+import { liveQuery, type Observable } from 'dexie'
+import { db, Series } from 'shared/lib'
 
-export const allSeries$ = seriesCollection.find().$
+export const allSeries$ = liveQuery(() => db.series.toArray()) as Observable<Series[]>

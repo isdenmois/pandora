@@ -1,4 +1,4 @@
-import type { Observable } from 'rxjs'
+import type { Observable } from 'dexie'
 import { onScopeDispose, ref, Ref, UnwrapRef } from 'vue'
 
 export interface UseObservableOptions<I> {

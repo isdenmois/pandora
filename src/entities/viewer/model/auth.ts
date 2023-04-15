@@ -1,22 +1,11 @@
-import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth'
-import { BehaviorSubject, distinctUntilChanged, map, ReplaySubject } from 'rxjs'
-import { firebase } from 'shared/lib'
+import { atom, computed } from 'nanostores'
 
-const _user$ = new BehaviorSubject(firebase.auth.currentUser)
-const _authInit$ = new ReplaySubject<boolean>(1)
+export const user$ = atom(localStorage.getItem('pandora$user'))
+export const loggedIn$ = computed(user$, Boolean)
 
-onAuthStateChanged(firebase.auth, user => {
-  _user$.next(user)
-  _authInit$.next(true)
-})
+export const signIn = (username: string) => {
+  user$.set(username)
+  localStorage.setItem('pandora$user', username)
+}
 
-export const user$ = _user$.asObservable()
-export const loggedIn$ = _user$.pipe(
-  map(user => !!user),
-  distinctUntilChanged(),
-)
-export const authInit$ = _authInit$.asObservable()
-
-export const signIn = (email: string, password: string) => signInWithEmailAndPassword(firebase.auth, email, password)
-
-export const logOut = () => firebase.auth.signOut()
+export const logOut = () => user$.set(null)

@@ -1,10 +1,5 @@
-import { Series } from 'shared/lib'
-import { seriesCollection } from './db'
+import { Series, db } from 'shared/lib'
 
-export const createSeries = async (data: Series) => seriesCollection.insert(data)
+export const createSeries = async (data: Series) => db.series.add(data)
 
-export const removeSeries = async (id: string) => {
-  const doc = await seriesCollection.findOne({ selector: { id } }).exec()
-
-  return doc.remove()
-}
+export const removeSeries = async (id: string) => db.series.delete(id)

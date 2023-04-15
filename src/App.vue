@@ -1,18 +1,15 @@
 <script setup lang="ts">
 import { defineAsyncComponent } from 'vue'
-import { authInit$, loggedIn$ } from 'entities/viewer'
-import { useObservable } from 'shared/hooks'
+import { useStore } from '@nanostores/vue'
+import { loggedIn$ } from 'entities/viewer'
 
 const AuthPage = defineAsyncComponent(() => import('pages/AuthPage.vue'))
 
-const loaded = useObservable(authInit$)
-const loggedIn = useObservable(loggedIn$)
+const loggedIn = useStore(loggedIn$)
 </script>
 
 <template>
-  <template v-if="loaded">
-    <router-view v-if="loggedIn" />
+  <router-view v-if="loggedIn" />
 
-    <AuthPage v-else />
-  </template>
+  <AuthPage v-else />
 </template>

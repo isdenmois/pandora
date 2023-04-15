@@ -1,33 +1,18 @@
-import { toTypedRxJsonSchema } from 'rxdb'
+import { z } from 'zod'
 
-export const seriesSchema = toTypedRxJsonSchema({
-  title: 'Series schema',
-  version: 0,
-  primaryKey: 'id',
-  type: 'object',
-  properties: {
-    id: {
-      type: 'string',
-      maxLength: 100,
-    },
-    title: {
-      type: 'string',
-    },
-    overview: {
-      type: 'string',
-    },
-    poster: {
-      type: 'string',
-    },
-    network: {
-      type: 'string',
-    },
-    aired: {
-      type: 'string',
-    },
-    status: {
-      type: 'integer',
-    },
-  },
-  required: ['id', 'title', 'status'],
-} as const)
+export enum SeriesStatus {
+  None = 0,
+  Added = 1,
+}
+
+const seriesSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  overview: z.string().nullable(),
+  poster: z.string().nullable(),
+  network: z.string().nullable(),
+  aired: z.string().nullable(),
+  status: z.nativeEnum(SeriesStatus),
+})
+
+export type Series = z.infer<typeof seriesSchema>

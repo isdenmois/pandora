@@ -4,7 +4,7 @@ import { tvdbAPI } from 'shared/api'
 import { SeriesSearchItem } from 'shared/api/tvdb/series-search'
 import { allSeries$, createSeries, removeSeries } from 'entities/series'
 import { useObservable } from 'shared/hooks'
-import { env } from 'shared/lib'
+import { env, SeriesStatus } from 'shared/lib'
 
 const query = ref('')
 const series = ref<SeriesSearchItem[]>([])
@@ -27,11 +27,11 @@ const addSeries = async (series: SeriesSearchItem) => {
   await createSeries({
     id: `tvdb_${series.id}`,
     title: series.seriesName,
-    overview: series.overview,
-    poster: series.image || undefined,
-    aired: series.firstAired?.toISOString(),
-    network: series.network || undefined,
-    status: 1,
+    overview: series.overview || null,
+    poster: series.image || null,
+    aired: series.firstAired?.toISOString() || null,
+    network: series.network || null,
+    status: SeriesStatus.Added,
   })
 
   alert('Series was added')
@@ -40,17 +40,17 @@ const addSeries = async (series: SeriesSearchItem) => {
 
 <template>
   <q-page class="column items-center justify-evenly">
-    <q-card v-for="series of allSeries" v-bind:key="series.id" class="card">
-      <q-img v-if="series.poster" :src="env.corsURL + series.poster">
-        <div class="absolute-bottom text-subtitle2 text-center">{{ series.title }}</div>
+    <q-card v-for="addedSeries of allSeries" v-bind:key="addedSeries.id" class="card">
+      <q-img v-if="addedSeries.poster" :src="env.corsURL + addedSeries.poster">
+        <div class="absolute-bottom text-subtitle2 text-center">{{ addedSeries.title }}</div>
       </q-img>
 
       <q-card-section v-else>
-        <div class="text-h5 q-mt-sm q-mb-xs">{{ series.title }}</div>
+        <div class="text-h5 q-mt-sm q-mb-xs">{{ addedSeries.title }}</div>
       </q-card-section>
 
       <q-card-section>
-        <q-btn label="Remove" @click="removeSeries(series.id)" />
+        <q-btn label="Remove" @click="removeSeries(addedSeries.id)" />
       </q-card-section>
     </q-card>
 

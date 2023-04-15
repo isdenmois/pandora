@@ -2,13 +2,13 @@
 import { ref } from 'vue'
 import { signIn } from 'entities/viewer'
 
-const email = ref('')
-const password = ref('')
+const username = ref('')
 const loading = ref(false)
+
 const login = async () => {
   try {
     loading.value = true
-    await signIn(email.value, password.value)
+    await signIn(username.value)
   } catch (error) {
     if (error instanceof Error) {
       alert(error.message)
@@ -22,8 +22,7 @@ const login = async () => {
 <template>
   <div class="auth">
     <form @submit.prevent="login">
-      <q-input v-model="email" filled type="email" hint="Email" :disable="loading" />
-      <q-input v-model="password" filled type="password" hint="Password" :disable="loading" />
+      <q-input v-model="username" filled type="text" hint="Login" :disable="loading" />
 
       <div class="submit-button">
         <q-btn type="submit" color="primary" label="Login" :loading="loading" />

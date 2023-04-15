@@ -1,13 +1,17 @@
-import { addRxPlugin, createRxDatabase } from 'rxdb'
-import { getRxStorageDexie } from 'rxdb/plugins/storage-dexie'
-import { RxDBMigrationPlugin } from 'rxdb/plugins/migration'
-// import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode'
+import Dexie from 'dexie'
+import 'dexie-syncable'
+import { dbUrl } from '../env'
+import { Series } from './series'
+import './firebase-sync'
 
-// addRxPlugin(RxDBDevModePlugin)
+class PandoraDatabase extends Dexie {
+  series!: Dexie.Table<Series, string>
+}
 
-addRxPlugin(RxDBMigrationPlugin)
+export const db = new PandoraDatabase('pandora-list')
 
-export const db = await createRxDatabase({
-  name: 'pandora',
-  storage: getRxStorageDexie(),
+db.version(1).stores({
+  series: 'id, title, overview, poster, network, aired, status',
 })
+
+db.syncable.connect('firebase', dbUrl)
